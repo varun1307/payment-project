@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-
 export function TransactionPage() {
-  const [message, setMessage] = useState('');
-const handleChange = event => {
-  setMessage(event.target.value);
-};
+  const [transactionResponse, setTransactionResponse] = useState([]);
+  const navigate = useNavigate();
+  const [customerDetails, setCustomerDetails] = useState([]);
+  const getData = () => {
+    axios
+      .get("http://localhost:8080/customerDetails/")
+      .then((res) => {
+        console.log(res);
+        setCustomerDetails(res);
+        //just for working only with the data..
+      })
+      .catch((e) => {
+        console.log("Couldnt fetch  details");
+      });
+  };
 
-const handleClick = () => {
-  // 👇️ clear input value
-  setMessage('');
-};
-
+  let customerId = 8302081782860;
+  function getSellerAnalyticsTotals() {
+    return axios.get(`http://localhost:8080/customerDetails/${customerId}`);
+  }
   const [transaction, setTransaction] = useState({
     sender: "",
     bal: "",
@@ -67,12 +77,20 @@ const handleClick = () => {
       transactionTime,
     };
     axios
-      .post("https://c109-43-205-109-142.in.ngrok.io/transaction/transfer", dt)
+      .post("http://localhost:8080/transaction/transfer", dt)
 
       .then(
-        (response) => {
+        (res) => {
           console.log(dt);
-          alert("Transaction Successfull");
+          console.log(res);
+          setTransactionResponse(res);
+          if (transactionResponse.data === "Transaction is successfull") {
+            alert("Transaction Successfull");
+            navigate("/empdash");
+          } else {
+            alert(transactionResponse);
+            navigate("/tran");
+          }
         },
         (error) => {
           console.log(error);
@@ -130,7 +148,7 @@ const handleClick = () => {
                       type="text"
                       class="form-control"
                       name="bal"
-                      placeholder="CLear Balance"
+                      placeholder="Clear Balance"
                       value={bal}
                       onChange={(e) => onInputChange(e)}
                     />
@@ -153,6 +171,7 @@ const handleClick = () => {
                   <div class="form-group">
                                                         
                     <Form.Select
+                      name="transferType"
                       onChange={(e) => onInputChange(e)}
                       aria-label="Default select example"
                     >
@@ -162,24 +181,26 @@ const handleClick = () => {
                       </option>
                       <option value="Bank Transfer">Bank Transfer</option>
                     </Form.Select>
-                                                    
                   </div>
-                  Message Code                                 
+                  <br></br>
+                  Message Code
+                                                  
                   <div class="form-group">
-                                                        
+                                             
                     <Form.Select
+                      name="messageCode"
                       onChange={(e) => onInputChange(e)}
                       aria-label="Default select example"
                     >
                       <option>Select Message Code</option>
-                      <option value="CHQB">CHQB</option>{" "}
-                      <option value="CORT">CORT</option>{" "}
-                      <option value="HOLD">HOLD</option>{" "}
-                      <option value="INTC">INTC</option>{" "}
-                      <option value="PHOB">PHOB</option>{" "}
-                      <option value="PHOI">PHOI</option>{" "}
-                      <option value="PHON">PHON</option>{" "}
-                      <option value="REPA">REPA</option>{" "}
+                      <option value="CHQB">CHQB</option>
+                      <option value="CORT">CORT</option>
+                      <option value="HOLD">HOLD</option>
+                      <option value="INTC">INTC</option>
+                      <option value="PHOB">PHOB</option>
+                      <option value="PHOI">PHOI</option>
+                      <option value="PHON">PHON</option>
+                      <option value="REPA">REPA</option>
                       <option value="SDVA">SDVA</option>
                     </Form.Select>
                                                     
@@ -234,13 +255,13 @@ const handleClick = () => {
                       Send
                     </button>
                                                         
-                    <button
+                    {/* <button
                     onClick={handleClick}
                       type="reset"
                       class="btn btn-outline-primary text-center mr-2"
                     >
                       Clear
-                    </button>
+                    </button> */}
                                                     
                   </div>
                                               

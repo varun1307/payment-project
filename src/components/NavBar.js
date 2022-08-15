@@ -15,7 +15,7 @@ export function MenuBar() {
           <Navbar.Brand href="#home">DBS Bank</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <Nav.Link as={Link} to="/">About</Nav.Link>
+            <Nav.Link as={Link} to="/cust">Customer List</Nav.Link>
             <Nav.Link as={Link} to="/login">Login</Nav.Link>
           </Nav>
         </Container>
