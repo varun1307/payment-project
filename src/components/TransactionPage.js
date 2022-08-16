@@ -1,12 +1,51 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 
 export function TransactionPage() {
-  const [message, setMessage] = useState('');
-const handleChange = event => {
-  setMessage(event.target.value);
-};
+  
+const [message, setMessage] = useState('');
+// const handleChange = event => {
+//   setMessage(event.target.value);
+// };
+
+// const [details, setDetails] = useState([])
+// // const handleDetails=()=>{
+// //   useEffect(() => {
+// //     axios.get("https://da28-52-66-229-253.in.ngrok.io/customerDetails/")
+// //       .then(res => setDetails(res.data))
+// //       console.log(res.data)
+// //             .catch(err => console.log("Couldnt fetch customer details"))
+// //   }, []);
+// // }
+
+
+
+
+// // const [transaction, setTransaction] = useState([])
+// useEffect(() => {
+//   axios.get("https://da28-52-66-229-253.in.ngrok.io/customerDetails/")
+//     .then(res => setDetails(res.data))
+//     console.log(details)
+//           .catch(err => console.log("Couldnt fetch customer details"))
+// }, []);
+
+
+
+const getData = () =>{
+
+  axios.get("https://da28-52-66-229-253.in.ngrok.io/customerDetails/")
+   
+  .then(res=>{
+      console.log(res)
+      res = res.data; //just for working only with the data..
+      
+  })
+  .catch(e=> {
+      console.log(e.response.data)
+  })
+}
+
 
 const handleClick = () => {
   // 👇️ clear input value
@@ -67,7 +106,7 @@ const handleClick = () => {
       transactionTime,
     };
     axios
-      .post("https://c109-43-205-109-142.in.ngrok.io/transaction/transfer", dt)
+      .post("https://da28-52-66-229-253.in.ngrok.io/transaction/transfer", dt)
 
       .then(
         (response) => {
@@ -94,7 +133,7 @@ const handleClick = () => {
                                       
               <div>
                                             
-                <form onSubmit={(e) => FormHandle(e)}>
+                <form>
                   Customer ID                                 
                   <div class="form-group">
                                                         
@@ -107,18 +146,25 @@ const handleClick = () => {
                       value={sender}
                       onChange={(e) => onInputChange(e)}
                     />
+                    <br></br>
+                    <button
+                      onClick={getData}
+                      class="btn btn-outline-primary text-center mr-2"
+                    >
+                      Get Details
+                    </button>
                                                     
                   </div>
+                  <br></br>
                   Sender Account Holder Name                                 
                   <div class="form-group">
-                                                        
-                                                        
+                                                                         
                     <input
                       type="text"
                       class="form-control"
                       name="senderAccountHolderName"
                       placeholder="Sender Account Holder Name"
-                      value={senderAccountHolderName}
+                      // value={details[accountHolderName]}
                       onChange={(e) => onInputChange(e)}
                     />
                                                     
@@ -131,7 +177,7 @@ const handleClick = () => {
                       class="form-control"
                       name="bal"
                       placeholder="CLear Balance"
-                      value={bal}
+                      // value={details[clearBalance]}
                       onChange={(e) => onInputChange(e)}
                     />
                                                     
@@ -144,11 +190,19 @@ const handleClick = () => {
                       class="form-control"
                       name="receiverAccountNumber"
                       placeholder="Receiver Account Number"
-                      value={receiverAccountNumber}
+                      // value={details.receiverAccountNumber}
                       onChange={(e) => onInputChange(e)}
                     />
                                                     
                   </div>
+                  <button
+                    // onClick={GetDetails}
+                    class="btn btn-outline-primary text-center mr-2"
+                  >
+                    Get Details
+                  </button>
+                  <br></br>
+                  <br></br>
                   Transfer Type                                 
                   <div class="form-group">
                                                         
@@ -228,6 +282,7 @@ const handleClick = () => {
                   <div className="container text-center">
                                                         
                     <button
+                      onClick={FormHandle}
                       type="submit"
                       class="btn btn-outline-secondary my-2 text-center mr-2"
                     >
@@ -235,7 +290,7 @@ const handleClick = () => {
                     </button>
                                                         
                     <button
-                    onClick={handleClick}
+                      onClick={handleClick}
                       type="reset"
                       class="btn btn-outline-primary text-center mr-2"
                     >

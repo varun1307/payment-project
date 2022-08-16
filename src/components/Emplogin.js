@@ -4,17 +4,18 @@ import { Button } from 'primereact/button';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 export function Emplogin() {
-  const [usernameOrEmail, setName] = useState();
+
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate=useNavigate();
   
   const handleSubmit=(event)=>{
     event.preventDefault();
     
-    axios.post("https://929c-52-66-229-253.in.ngrok.io/signin",
+    axios.post("https://da28-52-66-229-253.in.ngrok.io/user/signin",
     
     {
-      usernameOrEmail: usernameOrEmail,
+      email: email,
       password: password
     }
 
@@ -35,8 +36,8 @@ export function Emplogin() {
               <form onSubmit={handleSubmit}>
             <span className="p-float-label">
               <InputText
-                id="usernameOrEmail"
-                name="usernameOrEmail"
+                id="email"
+                name="email"
                 
               />
               <label htmlFor="username">Username</label>

@@ -11,17 +11,22 @@ import {HomePage} from './components/HomePage';
 import { Emplogin } from './components/Emplogin';
 import { TransactionPage } from './components/TransactionPage';
 import { EmpDash } from './components/EmpDash';
+import { TransactionDetails } from './components/TransactionDetails';
+import { MenuBar1 } from './components/NavBar1';
 function App() {
   return (
     <div className="App">
       
-      <MenuBar/>
+      
+      
       <Routes>
       
         <Route path="/" element={<HomePage/>}/>
         <Route path="/login" element={<Emplogin/>}/>
         <Route path="/tran" element={<TransactionPage/>}/>
         <Route path="/empdash" element={<EmpDash/>}/>
+        <Route path="/details:transactionId" element={<TransactionDetails/>}/>
+
 
 
 

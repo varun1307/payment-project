@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router';
 
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 export function EmpDash() {
+
+  
+  const [customer, setCustomer] = useState({})
+  const params = useParams()
+  useEffect(() => {
+      axios.get("http://localhost:8080/empget/" + params.id)
+          .then(res => setCustomer(res.data))
+          .catch(err => console.log("Couldnt fetch customer details"))
+  }, [])
+
+
+
+
+
+
 
 
   ////spring boot/////
@@ -43,11 +59,8 @@ export function EmpDash() {
                   <td>{c.receiverAccountHolderName}</td>
 
                 <td>{c.amount}</td>
-                <td><Link>show more</Link></td>
-                
-                
-                
-                
+                <td><Link to={"/details/"+c.transactionId}>show more</Link></td>
+               
               </tr>
               </tbody>
             ))
