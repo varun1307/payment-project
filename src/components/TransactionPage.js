@@ -3,26 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 export function TransactionPage() {
-  const [transactionResponse, setTransactionResponse] = useState([]);
+  // const [transactionResponse, setTransactionResponse] = useState([]);
   const navigate = useNavigate();
-  const [customerDetails, setCustomerDetails] = useState([]);
-  const getData = () => {
-    axios
-      .get("http://localhost:8080/customerDetails/")
-      .then((res) => {
-        console.log(res);
-        setCustomerDetails(res);
-        //just for working only with the data..
-      })
-      .catch((e) => {
-        console.log("Couldnt fetch  details");
-      });
-  };
 
-  let customerId = 8302081782860;
-  function getSellerAnalyticsTotals() {
-    return axios.get(`http://localhost:8080/customerDetails/${customerId}`);
-  }
+  const [customerDetails, setCustomerDetails] = useState([]);
+
   const [transaction, setTransaction] = useState({
     sender: "",
     bal: "",
@@ -57,6 +42,29 @@ export function TransactionPage() {
     console.log(transaction);
     addDataToServer(transaction);
   };
+
+  const getDataIndividual=(e)=>{
+    e.preventDefault();
+      axios
+      .post("http://localhost:8080/customerDetails/id", {customerId:sender})
+      .then(
+        (res) => {
+          //console.log(cus);
+          // console.log(res);
+          // console.log((res.data.accountHolderName));
+          setCustomerDetails(res.data)
+          console.log(customerDetails)
+        //   senderAccountHolderName=res.data.accountHolderName;
+        //  transaction.bal(res.data.clearBalance);
+        },
+        (error) => {
+          console.log(error);
+          alert("Invalid");
+        }
+      );
+      }
+    
+  
   const addDataToServer = (data) => {
     const dt = {
       sender: {
@@ -83,12 +91,12 @@ export function TransactionPage() {
         (res) => {
           console.log(dt);
           console.log(res);
-          setTransactionResponse(res);
-          if (transactionResponse.data === "Transaction is successfull") {
+          // setTransactionResponse(res);
+          if (res.data === "Transaction is successfull") {
             alert("Transaction Successfull");
             navigate("/empdash");
           } else {
-            alert(transactionResponse);
+            alert(res.data);
             navigate("/tran");
           }
         },
@@ -104,7 +112,7 @@ export function TransactionPage() {
       <div className="container">
         <div Style="display:flex;">
                           
-          <div className="w-75 mx-auto shadow p-5 mt-2 bg-light">
+          <div className="w-75 mx-auto shadow  mt-2 bg-light">
                                 
             <div class="jumbotron">
                                       
@@ -114,9 +122,7 @@ export function TransactionPage() {
                                             
                 <form onSubmit={(e) => FormHandle(e)}>
                   Customer ID                                 
-                  <div class="form-group">
-                                                        
-                                                        
+                  <div class="form-group">                          
                     <input
                       type="number"
                       class="form-control"
@@ -124,19 +130,25 @@ export function TransactionPage() {
                       placeholder="Customer ID"
                       value={sender}
                       onChange={(e) => onInputChange(e)}
-                    />
-                                                    
+                    />                            
                   </div>
+                  <button
+                      onClick={e=>getDataIndividual(e)}
+                      class="btn btn-outline-primary text-center mr-2">
+                      Get Details
+                    </button>
+                    <br></br>
+                    <br></br>
                   Sender Account Holder Name                                 
                   <div class="form-group">
                                                         
                                                         
                     <input
-                      type="text"
+                     // type="text"
                       class="form-control"
                       name="senderAccountHolderName"
                       placeholder="Sender Account Holder Name"
-                      value={senderAccountHolderName}
+                      value={customerDetails.accountHolderName}
                       onChange={(e) => onInputChange(e)}
                     />
                                                     
@@ -149,11 +161,12 @@ export function TransactionPage() {
                       class="form-control"
                       name="bal"
                       placeholder="Clear Balance"
-                      value={bal}
+                      value={customerDetails.clearBalance}
                       onChange={(e) => onInputChange(e)}
                     />
                                                     
                   </div>
+                  <br></br>
                   Receiver Account Number                                 
                   <div class="form-group">
                                                         
@@ -183,8 +196,7 @@ export function TransactionPage() {
                     </Form.Select>
                   </div>
                   <br></br>
-                  Message Code
-                                                  
+                  Message Code                                 
                   <div class="form-group">
                                              
                     <Form.Select
@@ -250,7 +262,7 @@ export function TransactionPage() {
                                                         
                     <button
                       type="submit"
-                      class="btn btn-outline-secondary my-2 text-center mr-2"
+                      class="btn btn-primary my-2 text-center mr-2"
                     >
                       Send
                     </button>

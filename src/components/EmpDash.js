@@ -22,7 +22,11 @@ export function EmpDash() {
   return (
     <>
     <h2><center>All Transactions</center></h2>
+
+    
+    
     <div className="container">
+      
         <Table border="1" cellPadding="10">
           <tr>
             <th>id</th>
@@ -30,6 +34,7 @@ export function EmpDash() {
             <th>Receiver BIC</th>
             <th>Receiver Name</th>
             <th>Amount</th>
+            <th>Status</th>
           </tr>
           {
             transaction.map(c => (
@@ -39,8 +44,10 @@ export function EmpDash() {
                   <td>{c.sender.customerId}</td>
                   <td>{c.bank.bic}</td>
                   <td>{c.receiverAccountHolderName}</td>
+                  
+                  <td>{c.amount}</td>
+                  <td>{c.status}</td>
 
-                <td>{c.amount}</td>
                 {/* <td><Link to="/show">Show More</Link></td> */}
                 
                 {/* <td><Link to={"/details/"+c.transactionId}>show more</Link></td> */}

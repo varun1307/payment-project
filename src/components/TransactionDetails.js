@@ -21,7 +21,6 @@ export function TransactionDetails() {
             <p>{customer.receiverAccountHolderName}</p>
            <p>{customer.amount}</p> */}
             <div className="mb-3">
-                <Link  to="/table">Go Back to Customers Page</Link>
             </div>
             
                 

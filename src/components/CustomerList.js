@@ -22,7 +22,10 @@ export function CustomerList() {
   return (
     <>
     <h2><center>All Senders</center></h2>
+
+     
     <div className="container">
+    <h3><Link style={{display: 'flex', justifyContent: 'flex-middle'}} to="/home">Back</Link></h3>
         <Table border="1" cellPadding="10">
           <tr>
             <th>Sender ID</th>
