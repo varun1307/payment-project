@@ -54,14 +54,16 @@ export function Emplogin() {
     ).then((res)=>{
       console.log(res);
       setReply(res); 
-      if(reply.data=="Login Successful"){
+      if(reply.data=='Login Successful'){
         //alert("Login Successfull")
         navigate("/home") 
       }
-         else{
-          //alert("Invalid credentials")
+      else if(reply.data=='User is not valid'){
+      //alert("Invalid credentials")
+      userDetails.email="";
+      userDetails.password="";
           navigate("/")
-         }})
+    }})
     .catch(err=>console.log(err))
 
     

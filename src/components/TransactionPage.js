@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 export function TransactionPage() {
   // const [transactionResponse, setTransactionResponse] = useState([]);
   const navigate = useNavigate();
@@ -49,13 +50,12 @@ export function TransactionPage() {
       .post("http://localhost:8080/customerDetails/id", {customerId:sender})
       .then(
         (res) => {
-          //console.log(cus);
-          // console.log(res);
-          // console.log((res.data.accountHolderName));
+          if(res.data==''){
+            alert("Invalid Id")
+          }
+          
           setCustomerDetails(res.data)
           console.log(customerDetails)
-        //   senderAccountHolderName=res.data.accountHolderName;
-        //  transaction.bal(res.data.clearBalance);
         },
         (error) => {
           console.log(error);
@@ -110,6 +110,8 @@ export function TransactionPage() {
     <div>
                   
       <div className="container">
+      <h3><Link style={{display: 'flex', justifyContent: 'flex-middle'}} to="/home">Back</Link></h3>
+
         <div Style="display:flex;">
                           
           <div className="w-75 mx-auto shadow  mt-2 bg-light">

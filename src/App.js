@@ -22,7 +22,7 @@ function App() {
         <Route path="/tran" element={<TransactionPage />} />
         <Route path="/empdash" element={<EmpDash />} />
         <Route path="/cust" element={<CustomerList />} />
-        {/* <Route path="/details/:transactionId" element={<TransactionDetails/>}/> */}
+        <Route path="/details/:transactionId" element={<TransactionDetails/>}/>
       </Routes>
     </div>
   );
